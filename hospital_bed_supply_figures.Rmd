@@ -825,3 +825,28 @@ ggplot(pivot_all_beds_visual_df, aes(reorder(hospital_name, -bed_count), bed_cou
   scale_fill_paletteer_d("ltc::sylvie") +
   coord_flip()
 ```
+
+```{r, echo = FALSE}
+ggplot(pivot_all_beds_visual_df, aes(x = bed_count, y = reorder(hospital_name, bed_count), color = icu_sicu)) +
+  geom_point(size = 3) +
+  facet_wrap(~ bed_type, scales = "free_x") +
+  labs(
+    title = "Top Hospitals Bed Type Count for ICU and SICU Beds",
+    x = "Bed Count",
+    y = NULL,
+    color = "Bed Type"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text = element_text(color = "black"),
+    axis.title.y = element_text(face = "bold", margin = margin(r = 10)),
+    axis.title.x = element_text(face = "bold", margin = margin(t = 10)),
+    legend.title = element_text(face = "bold"),
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.7, face = "bold", margin = margin(b = 10)),
+    plot.margin = margin(t = 20, r = 20, l = 20, b = 10),
+    plot.caption.position = "plot",
+    plot.caption = element_text(face = "italic", hjust = 0.5)
+  ) +
+  scale_color_paletteer_d("ggthemes::excel_Median")
+```
