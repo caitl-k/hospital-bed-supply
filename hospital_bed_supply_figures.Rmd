@@ -827,26 +827,53 @@ ggplot(pivot_all_beds_visual_df, aes(reorder(hospital_name, -bed_count), bed_cou
 ```
 
 ```{r, echo = FALSE}
-ggplot(pivot_all_beds_visual_df, aes(x = bed_count, y = reorder(hospital_name, bed_count), color = icu_sicu)) +
-  geom_point(size = 3) +
-  facet_wrap(~ bed_type, scales = "free_x") +
+ggplot(pivot_all_beds_visual_df, aes(reorder(hospital_name, -bed_count), bed_count, fill = bed_type)) +
+  geom_bar(stat = "identity", position = "stack", color = "black", width = 0.8) +
+  facet_wrap(~ icu_sicu, ncol = 1, scales = "fixed") +
   labs(
-    title = "Top Hospitals Bed Type Count for ICU and SICU Beds",
-    x = "Bed Count",
-    y = NULL,
-    color = "Bed Type"
+    x = NULL,
+    y = "Bed Count",
+    fill = "Bed Type",
+    title = "ICU and SICU Bed Type Counts",
+    caption = "Figure 7: ICU and SICU bed type counts for top hospitals"
   ) +
-  theme_minimal() +
+  theme_classic() +
   theme(
     axis.text = element_text(color = "black"),
-    axis.title.y = element_text(face = "bold", margin = margin(r = 10)),
-    axis.title.x = element_text(face = "bold", margin = margin(t = 10)),
-    legend.title = element_text(face = "bold"),
+    axis.title.y = element_text(margin = margin(r = 10)),
+    axis.title.x = element_text(color = "black", margin = margin(t = 10)),
     legend.position = "right",
     plot.title = element_text(hjust = 0.7, face = "bold", margin = margin(b = 10)),
     plot.margin = margin(t = 20, r = 20, l = 20, b = 10),
     plot.caption.position = "plot",
-    plot.caption = element_text(face = "italic", hjust = 0.5)
+    plot.caption = element_text(face = "italic", hjust = 0.7, margin = margin(t = 10))
+  ) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, NA)) +
+  scale_fill_paletteer_d("ltc::sylvie") +
+  coord_flip()
+```
+
+```{r, echo = FALSE}
+ggplot(pivot_all_beds_visual_df, aes(x = bed_count, y = reorder(hospital_name, bed_count), color = icu_sicu)) +
+  geom_point(size = 3) +
+  facet_wrap(~ bed_type, scales = "free_x") +
+  labs(
+    title = "ICU and SICU Bed Type Counts",
+    x = "Bed Count",
+    y = NULL,
+    color = "Bed Type",
+    caption = "Figure 8: ICU and SICU bed type counts for top hospitals"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text = element_text(color = "black"),
+    axis.title.y = element_text(margin = margin(r = 10)),
+    axis.title.x = element_text(color = "black", margin = margin(t = 10)),
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.7, face = "bold", margin = margin(b = 10)),
+    plot.margin = margin(t = 20, r = 20, l = 20, b = 10),
+    plot.caption.position = "plot",
+    plot.caption = element_text(face = "italic", hjust = 0.7, margin = margin(t = 10))
   ) +
   scale_color_paletteer_d("ggthemes::excel_Median")
 ```
